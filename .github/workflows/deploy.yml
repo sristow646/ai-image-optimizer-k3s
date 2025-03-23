@@ -21,6 +21,8 @@ jobs:
         docker push ${{ secrets.DOCKER_USERNAME }}/ai-image-optimizer-k3s:latest
 
     - name: Helm Deploy to K3s
+      env:
+        KUBECONFIG: /home/runner/.kube/config
       run: |
         helm upgrade --install ai-image-optimizer ./charts/ai-image-optimizer \
           --set image.repository=${{ secrets.DOCKER_USERNAME }}/ai-image-optimizer-k3s \
