@@ -1,0 +1,5 @@
+
+1. Access your AI Image Optimizer WebUI via:
+   https://{{ .Values.ingress.host }}
+
+2. Helm release: {{ .Release.Name }} deployed successfully!

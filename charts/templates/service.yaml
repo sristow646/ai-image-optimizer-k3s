@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ai-image-optimizer
+spec:
+  selector:
+    app: ai-image-optimizer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 7860
+  type: {{ .Values.service.type }}
