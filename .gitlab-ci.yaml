@@ -17,3 +17,5 @@ helm-deploy:
     - local-runner
   script:
     - helm upgrade --install ai-image-optimizer ./charts/ai-image-optimizer --set image.repository=registry.example.com/ai-image-optimizer-k3s --namespace default
+
+    
