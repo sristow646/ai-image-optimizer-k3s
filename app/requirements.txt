@@ -1,7 +1,3 @@
-# requirements.txt
-
-gradio==4.14.0
+gradio==3.41.2
 pillow
 numpy
-
-

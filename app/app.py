@@ -26,12 +26,15 @@ def optimize_image(image: np.ndarray):
 
     return output_path
 
-demo = gr.Interface(
-    fn=optimize_image,
-    inputs=gr.Image(type="numpy", label="Upload Image"),
-    outputs=gr.Image(label="Optimized Image"),
-    live=False,
-    title="🖼️ AI Image Optimizer (Gradio Only)"
-)
+with gr.Blocks() as demo:
+    gr.Markdown("## 🖼️ AI Image Optimizer (Gradio 3.x)")
+    with gr.Row():
+        with gr.Column():
+            input_image = gr.Image(label="Upload Image")
+            submit_btn = gr.Button("Optimize Image")
+        with gr.Column():
+            output_image = gr.Image(label="Optimized Image")
 
-demo.launch(server_name="0.0.0.0", server_port=7860)
+    submit_btn.click(fn=optimize_image, inputs=input_image, outputs=output_image)
+
+demo.queue().launch(server_name="0.0.0.0", server_port=7860)
