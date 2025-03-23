@@ -1,0 +1,19 @@
+stages:
+  - build
+  - deploy
+
+build-image:
+  stage: build
+  tags:
+    - local-runner
+  script:
+    - docker build -t ai-image-optimizer-k3s:latest ./app
+    - docker tag ai-image-optimizer-k3s:latest registry.example.com/ai-image-optimizer-k3s:latest
+    - docker push registry.example.com/ai-image-optimizer-k3s:latest
+
+helm-deploy:
+  stage: deploy
+  tags:
+    - local-runner
+  script:
+    - helm upgrade --install ai-image-optimizer ./charts/ai-image-optimizer --set image.repository=registry.example.com/ai-image-optimizer-k3s --namespace default
