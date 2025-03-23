@@ -5,6 +5,7 @@ stages:
 variables:
   IMAGE_NAME: "$CI_REGISTRY_IMAGE/ai-image-optimizer-k3s:latest"
   KUBECONFIG: "/home/runner/.kube/config"
+...
 
 build:
   stage: build
