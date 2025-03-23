@@ -30,6 +30,6 @@ jobs:
 
     - name: Deploy Helm Chart to k3s
       env:
-        KUBECONFIG: ${{ secrets.KUBE_CONFIG }}
+        KUBECONFIG: /home/runner/.kube/config
       run: |
         helm upgrade --install ai-image-optimizer ./charts/ai-image-optimizer           --set image.repository=${{ secrets.DOCKER_USERNAME }}/ai-image-optimizer-k3s           --set image.tag=latest           --namespace default
