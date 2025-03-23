@@ -1,7 +1,7 @@
 stages:
   - build
   - deploy
-
+  - test
 build-image:
   stage: build
   tags:
