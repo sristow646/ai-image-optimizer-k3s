@@ -15,19 +15,23 @@ jobs:
     - name: Docker Login
       run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Docker Build & Push with SHA Tag
+    - name: Docker Build & Push with short SHA Tag
       run: |
-        IMAGE_TAG=${{ github.sha }}
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/ai-image-optimizer-k3s:$IMAGE_TAG ./app
-        docker push ${{ secrets.DOCKER_USERNAME }}/ai-image-optimizer-k3s:$IMAGE_TAG
+        SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/ai-image-optimizer-k3s:$SHORT_SHA ./app
+        docker push ${{ secrets.DOCKER_USERNAME }}/ai-image-optimizer-k3s:$SHORT_SHA
 
     - name: Helm Deploy to K3s (atomic + wait)
       env:
         KUBECONFIG: /home/runner/.kube/config
       run: |
+        SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
         helm upgrade --install ai-image-optimizer ./charts/ai-image-optimizer \
           --set image.repository=${{ secrets.DOCKER_USERNAME }}/ai-image-optimizer-k3s \
-          --set image.tag=${{ github.sha }} \
+          --set image.tag=$SHORT_SHA \
           --set image.pullPolicy=Always \
           --namespace default \
           --atomic --wait
+
+    - name: Cleanup unused images
+      run: docker image prune -f
