@@ -1,0 +1,23 @@
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ai-image-optimizer
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  rules:
+  - host: ai.infranerd.de
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: ai-image-optimizer
+            port:
+              number: 80
+  tls:
+  - hosts:
+    - ai.infranerd.de
+    secretName: wildcard-infranerd-tls
