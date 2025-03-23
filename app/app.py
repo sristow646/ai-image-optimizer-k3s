@@ -1,8 +1,8 @@
-
 import gradio as gr
 import subprocess
 import os
 import uuid
+from PIL import Image
 
 INPUT_DIR = "/data/input"
 OUTPUT_DIR = "/data/output"
@@ -14,12 +14,17 @@ def optimize_image(image):
     image_id = str(uuid.uuid4())
     input_path = f"{INPUT_DIR}/{image_id}.png"
     output_path = f"{OUTPUT_DIR}/{image_id}_out.png"
-    
-    image.save(input_path)
-    
-    # Combine GFPGAN + Real-ESRGAN pipeline
-    subprocess.run(["python3", "inference_gfpgan_realesrgan.py", "--input", input_path, "--output", output_path])
-    
+
+    # Convert numpy.ndarray to PIL Image
+    pil_image = Image.fromarray(image)
+    pil_image.save(input_path)
+
+    # Placeholder for AI pipeline
+    subprocess.run(["echo", "Running inference on", input_path])
+
+    # Simulate output for testing purposes
+    pil_image.save(output_path)
+
     return output_path
 
 with gr.Blocks() as demo:
@@ -31,7 +36,7 @@ with gr.Blocks() as demo:
         with gr.Column():
             output_image = gr.Image(label="Optimized Image")
             download_btn = gr.File(label="Download Optimized Image")
-    
+
     submit_btn.click(fn=optimize_image, inputs=input_image, outputs=[output_image, download_btn])
 
 demo.launch(server_name="0.0.0.0", server_port=7860)

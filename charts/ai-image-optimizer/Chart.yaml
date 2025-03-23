@@ -3,4 +3,4 @@ name: ai-image-optimizer
 description: Full Helm chart for AI Image Optimizer including Service & Ingress
 type: application
 version: 0.1.0
-appVersion: "1.0"
+appVersion: "1.1"
