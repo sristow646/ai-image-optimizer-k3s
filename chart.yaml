@@ -1,0 +1,6 @@
+apiVersion: v2
+name: ai-image-optimizer
+description: Helm chart for deploying the AI Image Optimizer WebUI on K3s
+type: application
+version: 0.1.0
+appVersion: "1.0"
