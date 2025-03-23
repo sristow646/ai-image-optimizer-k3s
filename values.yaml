@@ -1,0 +1,20 @@
+
+replicaCount: 1
+image:
+  repository: ai-image-optimizer-k3s
+  tag: latest
+  pullPolicy: IfNotPresent
+service:
+  type: ClusterIP
+  port: 80
+ingress:
+  enabled: true
+  host: ai.infranerd.de
+  tlsSecret: wildcard-infranerd-tls
+resources:
+  limits:
+    cpu: "2"
+    memory: "2Gi"
+persistence:
+  enabled: true
+  size: 5Gi
