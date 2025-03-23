@@ -3,3 +3,5 @@
 gradio==4.14.0
 pillow
 numpy
+pydantic==1.10.12
+
