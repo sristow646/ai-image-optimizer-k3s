@@ -13,8 +13,12 @@ OUTPUT_DIR = "/data/output"
 os.makedirs(INPUT_DIR, exist_ok=True)
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-# Load Stable Diffusion
-pipe = StableDiffusionPipeline.from_pretrained("runwayml/stable-diffusion-v1-5")
+# Load Stable Diffusion with mixed precision & CPU fallback
+pipe = StableDiffusionPipeline.from_pretrained(
+    "runwayml/stable-diffusion-v1-5",
+    torch_dtype=torch.float16,
+    revision="fp16"
+)
 pipe.to("cuda" if torch.cuda.is_available() else "cpu")
 
 def optimize_image(image: np.ndarray):
@@ -31,11 +35,12 @@ def optimize_image(image: np.ndarray):
 
     return output_path
 
-def generate_image_from_text(prompt):
-    image = pipe(prompt, num_inference_steps=30).images[0]
-    image_id = str(uuid.uuid4())
-    output_path = f"{OUTPUT_DIR}/{image_id}_generated.png"
-    image.save(output_path)
+def generate_image_from_text(prompt, progress=gr.Progress(track_tqdm=True)):
+    with progress:
+        image = pipe(prompt, num_inference_steps=20).images[0]
+        image_id = str(uuid.uuid4())
+        output_path = f"{OUTPUT_DIR}/{image_id}_generated.png"
+        image.save(output_path)
     return output_path
 
 with gr.Blocks() as demo:
@@ -60,4 +65,6 @@ with gr.Blocks() as demo:
                     generated_image = gr.Image(label="Generated Image")
             generate_btn.click(fn=generate_image_from_text, inputs=text_input, outputs=generated_image)
 
+
+    
 demo.queue().launch(server_name="0.0.0.0", server_port=7860)
