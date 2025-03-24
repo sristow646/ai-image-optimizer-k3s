@@ -15,9 +15,9 @@ ingress:
 
 resources:
   limits:
-    cpu: "2"
-    memory: "2Gi"
+    cpu: "4"
+    memory: "8Gi"
 
 persistence:
   enabled: true
-  size: 5Gi
+  size: 10Gi
