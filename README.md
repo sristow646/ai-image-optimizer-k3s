@@ -17,9 +17,9 @@ Ein vollständig automatisiertes, containerisiertes KI-System zur Bildverarbeitu
 🛡️ Ingress HTTPS-Support + PVC via Longhorn
 
 Ideal als Referenzprojekt für DevOps, MLOps und Homelab-Enthusiasten.
-
+---
 ⚙️ Architektur
-
+```
 Proxmox VM (Ubuntu)
 └── K3s (via Helm)
     ├── ai-image-optimizer (Gradio App)
@@ -28,7 +28,8 @@ Proxmox VM (Ubuntu)
     ├── Ingress (nginx + TLS via Wildcard-Zertifikat)
     ├── Persistent Storage (Longhorn PVC)
     └── GitHub Actions Runner (CI/CD)
-
+```
+---
 📦 Features
 
 ✅ Gradio WebUI mit Tabs für 2 KI-Funktionen
